@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+
+	<select id="blist" resultType="kr.co.nologaja.member.BuyerDTO">
+		<![CDATA[
+		SELECT uid, upw, uemail, uname, upnb, ugrd, ugender, wdate
+		FROM user_buyer
+		ORDER BY wdate DESC
+		]]>
+	</select>
+	
+	
+	<select id="bdetail" resultType="kr.co.nologaja.member.BuyerDTO">
+		<![CDATA[
+		SELECT uid, upw, uemail, uname, upnb, ugrd, ugender, wdate
+		FROM user_buyer
+		WHERE uid = #{uid}
+		]]>
+	</select>
+
+
+	<insert id="binsert" parameterType="kr.co.nologaja.member.BuyerDTO">
+		<![CDATA[
+		INSERT INTO user_buyer (uid, upw, uemail, uname, upnb, ugender)
+		VALUES (#{uid}, #{upw}, #{uemail}, #{uname}, #{upnb}, #{ugender})
+		]]>
+	</insert>
+	
+	
+	<update id="bupdate" parameterType="kr.co.nologaja.member.BuyerDTO">
+		<![CDATA[
+		UPDATE user_buyer 
+		SET upw = #{upw} , uname =#{uname} , uemail = #{uemail}, upnb = #{upnb}
+		WHERE uid = #{uid}
+		]]>
+	</update>
+	
+	
+	
+	<delete id="bdelete" parameterType="String">
+		<![CDATA[
+		DELETE FROM user_buyer
+		WHERE uid = #{uid}
+		]]>
+	</delete>
+	
+	
+	<select id="bcheck_upw" resultType="int" parameterType="HashMap">
+		<![CDATA[
+		SELECT COUNT(*)
+		FROM user_buyer
+		WHERE uid = #{one} AND upw = #{two}
+		]]>
+	</select>
+	
+	
+	
+	<select id="bduplicateID" resultType="int" parameterType="String">
+		<![CDATA[
+		SELECT COUNT(*)
+		FROM user_buyer
+		WHERE uid = #{uid}
+		]]>
+	</select>
+	
+	<select id="blogin" resultType="int" parameterType="HashMap">
+		<![CDATA[
+			SELECT COUNT(*)
+			FROM user_buyer
+			WHERE uid=#{one} AND upw=#{two}
+		]]>
+	</select>
+		
+	<select id="read_bgrd" resultType="String" parameterType="HashMap">
+		<![CDATA[
+		SELECT ugrd
+		FROM user_buyer
+		WHERE uid = #{bgrd_uid} AND upw=#{bgrd_upw}
+		]]>
+	</select>
+		 
+		 
+ 	<select id="bfindid" resultType="kr.co.nologaja.member.BuyerDTO">
+		<![CDATA[
+		SELECT uid, upw
+		FROM user_buyer
+		WHERE uname = #{uname} AND uemail = #{uemail}
+		]]>
+	</select>
+	
+	<!--@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  -->
+	
+	
+	
+	
+	<select id="slist" resultType="kr.co.nologaja.member.SellerDTO">
+		<![CDATA[
+		SELECT suid, supw, uemail, uname, upnb, ugrd, wdate, bsnb, bsaddr1, bsaddr2, bspnb
+		FROM user_seller
+		ORDER BY wdate DESC
+		]]>
+	</select>
+	
+	
+	<select id="sdetail" resultType="kr.co.nologaja.member.SellerDTO">
+		<![CDATA[
+		SELECT suid, supw, uemail, uname, upnb, ugrd, wdate, bsnb, bsaddr1, bsaddr2, bspnb
+		FROM user_seller
+		WHERE suid = #{suid}
+		]]>
+	</select>
+
+
+	<insert id="sinsert" parameterType="kr.co.nologaja.member.SellerDTO">
+		<![CDATA[
+		INSERT INTO user_seller (suid, supw, uemail, uname, upnb, bsnb, bsaddr1, bsaddr2, bspnb)
+		VALUES (#{suid}, #{supw}, #{uemail}, #{uname}, #{upnb}, #{bsnb}, #{bsaddr1}, #{bsaddr2}, #{bspnb})
+		]]>
+	</insert>
+	
+	
+	<update id="supdate" parameterType="kr.co.nologaja.member.SellerDTO">
+		<![CDATA[
+		UPDATE user_seller 
+		SET supw = #{supw} , uname =#{uname} , uemail = #{uemail}, upnb = #{upnb}, bspnb = #{bspnb}
+		WHERE suid = #{suid}
+		]]>
+	</update>
+	
+	
+	
+	<delete id="sdelete" parameterType="String">
+		<![CDATA[
+		DELETE FROM user_seller
+		WHERE suid = #{suid}
+		]]>
+	</delete>
+	
+	
+	<select id="scheck_upw" resultType="int" parameterType="HashMap">
+		<![CDATA[
+		SELECT COUNT(*)
+		FROM user_seller
+		WHERE suid = #{one} AND supw = #{two}
+		]]>
+	</select>
+	
+	
+	
+	<select id="sduplicateID" resultType="int" parameterType="String">
+		<![CDATA[
+		SELECT COUNT(*)
+		FROM user_seller
+		WHERE suid = #{suid}
+		]]>
+	</select>
+	
+	<select id="slogin" resultType="int" parameterType="HashMap">
+		<![CDATA[
+			SELECT COUNT(*)
+			FROM user_seller
+			WHERE suid=#{one} AND supw=#{two}
+		]]>
+	</select>
+	
+	<select id="read_sgrd" resultType="String" parameterType="HashMap">
+		<![CDATA[
+		SELECT ugrd
+		FROM user_seller
+		WHERE suid = #{sgrd_suid} AND supw=#{sgrd_supw}
+		]]>
+	</select>
+	
+	<select id="sfindid" resultType="kr.co.nologaja.member.SellerDTO">
+		<![CDATA[
+		SELECT suid, supw
+		FROM user_seller
+		WHERE uname = #{uname} AND uemail = #{uemail}
+		]]>
+	</select>
+	
+</mapper>

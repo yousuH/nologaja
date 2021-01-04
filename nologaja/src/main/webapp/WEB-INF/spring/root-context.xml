@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+		
+	
+	<!-- root-context.xml -->
+	
+	<!-- XML 네임스페이스는 XML 문서 내에 어떤 태그나 속성을 적을 수 있는지 명시해 주는 역할 -->
+	
+	
+	<!-- Dependency Injection 의존성 주입 -->
+	<!-- XML 문서 기반의 객체 생성 (Bean) -->
+	
+	<!-- 오라클 DB연결 -->
+	<!-- basicMyBatis 프로젝트에서 jdbc.xml역할 -->
+	<bean id="dataSource"
+	      class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url"             value="jdbc:mysql://localhost:3306/nologaja?serverTimeZone=UTC"></property>
+		<property name="username"        value="root"></property>
+		<property name="password"        value="1234"></property>
+	</bean>
+	
+	<!-- basicMyBatis 프로젝트의 jdbc.xml에서 아래 매퍼 역할 -->
+	<!-- <mappers>
+			<mapper resource="config/mem.xml"/>
+		</mappers> 
+	-->
+	<bean id="sqlSessionFactory"
+	      class="org.mybatis.spring.SqlSessionFactoryBean">
+	      <property name="dataSource"      ref="dataSource"></property>
+	     <!-- <property name="configLocation"  value="classpath:/mybatis-config.xml"></property> -->
+	      <property name="mapperLocations" value="classpath:mappers/**/*.xml"></property>	
+	</bean>
+	
+	
+	
+	
+	<!-- SqlSession 객체 주입,SQL 호출 -->
+	<!-- basicMyBatis 프로젝트의 MemMainTest.java에서 
+		 3)쿼리문 생성 및 변환 SqlSession sql = ssf.openSEssion(true) 역할 -->
+		<bean id="sqlSession"
+			class="org.mybatis.spring.SqlSessionTemplate"
+			destroy-method="clearCache">
+			<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
+		</bean>
+		
+		
+</beans>
